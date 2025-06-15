@@ -102,10 +102,10 @@ int main() {
 
         board_render(board);
 
-        SDL_Surface *win_message_surface;
-        SDL_Texture *win_message_texture;
-
         if (winner) {
+            SDL_Surface *win_message_surface;
+            SDL_Texture *win_message_texture;
+
             char stringified_text[14];
             snprintf(stringified_text, sizeof(stringified_text), "Player %c won!", winner);
 
@@ -128,12 +128,12 @@ int main() {
                 0, 
                 &text_rect
             );
+
+            SDL_DestroyTexture(win_message_texture);
+            SDL_FreeSurface(win_message_surface);
         }
 
         SDL_RenderPresent(renderer);
-
-        SDL_DestroyTexture(win_message_texture);
-        SDL_FreeSurface(win_message_surface);
     }
 
     board_free(board);
