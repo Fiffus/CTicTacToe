@@ -87,6 +87,8 @@ void board_mark_winner(Board *board, const int row, const int col, const int thr
 }
 
 char board_check_winner(Board *board) {
+    int threshold = 5;
+    
     for (int row = 0; row < board->rows; row++) {
         for (int col = 0; col < board->cols; col++) {
             if (!board->tiles[row*board->cols+col]->player_mark) continue;
@@ -95,6 +97,12 @@ char board_check_winner(Board *board) {
             int vertical[2] = {0, 0};
             int tl_br[2] = {0, 0};
             int tr_bl[2] = {0, 0};
+
+            if (
+                col+threshold > board->cols || \
+                col-threshold < 0 || \
+                row+threshold > board->rows
+            ) continue;
 
             for (int i = 0; i < 5; i++) {
                 if (board->tiles[row*board->cols+col+i]->player_mark == 'x') {
@@ -119,7 +127,6 @@ char board_check_winner(Board *board) {
                 }
             }
 
-            int threshold = 5;
             for (int i = 0; i < 2; i++) {
                 if (horizontal[i] == threshold) {
                     board_mark_winner(board, row, col, threshold, 0);
